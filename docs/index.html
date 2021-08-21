@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="index.css">
+        <link rel="stylesheet" href="css/index.css">
     </head>
     <body>
         <p>Christoffer Svanströmer är en jävla fitta</p>
     </body>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="scripts/index.js">
+    $(document).ready(() => {
+        let test = new GillmanGenerator("hello, world");
+        test.greet();
+    });
+    </script>
 </html>
