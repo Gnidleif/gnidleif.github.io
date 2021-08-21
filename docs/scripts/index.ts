@@ -10,6 +10,10 @@ class Index {
     }
 
     InitHTML(): void {
+        $("#input_text").on("click", (event) => {
+            $("#input_text").trigger("select");
+        });
+
         $("#input_button").on("click", () => {
             let key: string = $("#select_mode :selected").val() as string;
             let message: string = $("#input_text").val() as string;
