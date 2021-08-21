@@ -2,15 +2,16 @@ class Index {
     modes: { [key: string]: TextGenerator };
 
     constructor() {
-        this.modes = {};
-        this.modes["spongebob"] = new Spongebob();
-        this.modes["fester"] = new Fester();
+        this.modes = {
+            "spongebob": new Spongebob(),
+            "fester": new Fester(),
+        };
 
         this.InitHTML();
     }
 
     InitHTML(): void {
-        $("#input_text").on("click", (event) => {
+        $("#input_text").on("click", () => {
             $("#input_text").trigger("select");
         });
 
@@ -38,10 +39,6 @@ class Index {
             dropdown.append("<option value='" + key + "'>" + key.charAt(0).toUpperCase() + key.slice(1) + "</option>");
         }
     }
-
-    SpongeBob(message: string): string {
-        return message.split('').map((chr) => Math.floor(Math.random() * 2) % 2 === 0 ? chr.toUpperCase() : chr.toLowerCase()).join('');
-    }
 }
 
 interface TextGenerator {
@@ -62,7 +59,7 @@ class Fester implements TextGenerator {
     }
 
     generate(message: string): string {
-        let text: string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        return text.repeat(Math.floor(Math.random() * 100));
+        let content: string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        return content.repeat(Math.floor(Math.random() * 100));
     }
 }
