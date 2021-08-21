@@ -1,3 +1,14 @@
 body {
     background-color: lightblue;
 }
+
+textarea {
+    resize: none;
+    width: 300px;
+    height: 150px;
+}
+
+select {
+    width: 300px;
+    height: 25px;
+}
