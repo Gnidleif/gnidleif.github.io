@@ -2,8 +2,8 @@
 var Index = /** @class */ (function () {
     function Index() {
         this.modes = {
-            "spongebob": new Spongebob(),
             "svärjevän": new ShitGrammar(),
+            "spongebob": new Spongebob(),
             "split words": new SplitWords(),
             "capitalize randomly": new CapitalizeRandomly(),
             "punctuate randomly": new PunctuateRandomly(),

@@ -3,8 +3,8 @@ class Index {
 
     constructor() {
         this.modes = {
-            "spongebob": new Spongebob(),
             "svärjevän": new ShitGrammar(),
+            "spongebob": new Spongebob(),
             "split words": new SplitWords(),
             "capitalize randomly": new CapitalizeRandomly(),
             "punctuate randomly": new PunctuateRandomly(),
