@@ -3,15 +3,22 @@ var Index = /** @class */ (function () {
     function Index() {
         this.modes = {
             "spongebob": new Spongebob(),
+            "svärjevän": new ShitGrammar(),
+            "split words": new SplitWords(),
+            "capitalize randomly": new CapitalizeRandomly(),
+            "punctuate randomly": new PunctuateRandomly(),
+            "random new lines": new AddNewLines(),
             "fester": new Fester(),
         };
-        this.InitHTML();
+        this.initHTML();
     }
-    Index.prototype.InitHTML = function () {
+    Index.prototype.initHTML = function () {
         var _this = this;
-        $("#input_text").on("click", function () {
-            $("#input_text").trigger("select");
-        });
+        var trigger_select = function (event) {
+            $(event.target).trigger("select");
+        };
+        $("#input_text").on("click", trigger_select);
+        $("#output_text").on("click", trigger_select);
         $("#input_button").on("click", function () {
             var key = $("#select_mode :selected").val();
             var message = $("#input_text").val();
@@ -40,16 +47,85 @@ var Spongebob = /** @class */ (function () {
     function Spongebob() {
     }
     Spongebob.prototype.generate = function (message) {
-        return message.split('').map(function (chr) { return Math.floor(Math.random() * 2) % 2 === 0 ? chr.toUpperCase() : chr.toLowerCase(); }).join('');
+        return message.split("").map(function (chr) { return Math.floor(Math.random() * 2) % 2 === 0 ? chr.toUpperCase() : chr.toLowerCase(); }).join("");
     };
     return Spongebob;
 }());
 var Fester = /** @class */ (function () {
     function Fester() {
+        this.content = lorem_ipsum;
     }
     Fester.prototype.generate = function (message) {
-        var content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        return content.repeat(Math.floor(Math.random() * 100));
+        return this.content.repeat(Math.floor(Math.random() * 100));
     };
     return Fester;
+}());
+var SplitWords = /** @class */ (function () {
+    function SplitWords() {
+    }
+    SplitWords.prototype.generate = function (message) {
+        return message
+            .split(" ")
+            .map(function (word) { return word in split_words ? split_words[word][Math.floor(Math.random() * split_words[word].length)] : word; })
+            .join(" ");
+    };
+    return SplitWords;
+}());
+var CapitalizeRandomly = /** @class */ (function () {
+    function CapitalizeRandomly() {
+        this.percent = 25;
+    }
+    CapitalizeRandomly.prototype.generate = function (message) {
+        var _this = this;
+        return message
+            .split(" ")
+            .map(function (word) { return Math.floor(Math.random() * 100) < _this.percent ? word.charAt(0).toUpperCase() + word.slice(1) : word.toLowerCase(); })
+            .join(" ");
+    };
+    return CapitalizeRandomly;
+}());
+var PunctuateRandomly = /** @class */ (function () {
+    function PunctuateRandomly() {
+        this.repeat_max = 4;
+        this.punctuations = [
+            "!",
+            "?",
+            ".",
+            ",",
+        ];
+    }
+    PunctuateRandomly.prototype.generate = function (message) {
+        var _this = this;
+        return message
+            .split("")
+            .map(function (word) { return /[.,!?]/.test(word) ? _this.punctuations[Math.floor(Math.random() * _this.punctuations.length)]
+            .repeat(Math.floor(Math.random() * _this.repeat_max)) : word; })
+            .join("");
+    };
+    return PunctuateRandomly;
+}());
+var ShitGrammar = /** @class */ (function () {
+    function ShitGrammar() {
+        this.split = new SplitWords();
+        this.capitalize = new CapitalizeRandomly();
+        this.punctuate = new PunctuateRandomly();
+        this.new_lines = new AddNewLines();
+    }
+    ShitGrammar.prototype.generate = function (message) {
+        return this.new_lines.generate(this.punctuate.generate(this.capitalize.generate(this.split.generate(message))));
+    };
+    return ShitGrammar;
+}());
+var AddNewLines = /** @class */ (function () {
+    function AddNewLines() {
+        this.percent = 10;
+    }
+    AddNewLines.prototype.generate = function (message) {
+        var _this = this;
+        return message
+            .split("")
+            .map(function (chr) { return /\s/.test(chr) && Math.floor(Math.random() * 100) < _this.percent ? '\n' : chr; })
+            .join("");
+    };
+    return AddNewLines;
 }());

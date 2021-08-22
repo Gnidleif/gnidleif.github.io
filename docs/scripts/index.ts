@@ -4,20 +4,28 @@ class Index {
     constructor() {
         this.modes = {
             "spongebob": new Spongebob(),
+            "svärjevän": new ShitGrammar(),
+            "split words": new SplitWords(),
+            "capitalize randomly": new CapitalizeRandomly(),
+            "punctuate randomly": new PunctuateRandomly(),
+            "random new lines": new AddNewLines(),
             "fester": new Fester(),
         };
 
-        this.InitHTML();
+        this.initHTML();
     }
 
-    InitHTML(): void {
-        $("#input_text").on("click", () => {
-            $("#input_text").trigger("select");
-        });
+    initHTML(): void {
+        const trigger_select = (event: JQuery.ClickEvent) => {
+            $(event.target).trigger("select");
+        }
+
+        $("#input_text").on("click", trigger_select);
+        $("#output_text").on("click", trigger_select);
 
         $("#input_button").on("click", () => {
-            let key: string = $("#select_mode :selected").val() as string;
-            let message: string = $("#input_text").val() as string;
+            const key: string = $("#select_mode :selected").val() as string;
+            const message: string = $("#input_text").val() as string;
             if (message.length > 0) {
                 $("#output_text").val(this.modes[key].generate(message));
             }
@@ -27,14 +35,14 @@ class Index {
         });
 
         $("#output_button").on("click", () => {
-            let generated: string = $("#output_text").val() as string;
+            const generated: string = $("#output_text").val() as string;
             if (generated.length > 0) {
                 $("#output_text").trigger("select");
                 document.execCommand("copy");
             }
         });
 
-        var dropdown = $("#select_mode");
+        const dropdown = $("#select_mode");
         for (let key in this.modes) {
             dropdown.append("<option value='" + key + "'>" + key.charAt(0).toUpperCase() + key.slice(1) + "</option>");
         }
@@ -46,20 +54,99 @@ interface TextGenerator {
 }
 
 class Spongebob implements TextGenerator {
-    constructor() {
-    }
-
     generate(message: string): string {
-        return message.split('').map((chr) => Math.floor(Math.random() * 2) % 2 === 0 ? chr.toUpperCase() : chr.toLowerCase()).join('');
+        return message.split("").map((chr) => Math.floor(Math.random() * 2) % 2 === 0 ? chr.toUpperCase() : chr.toLowerCase()).join("");
     }
 }
 
 class Fester implements TextGenerator {
+    content: string;
+
     constructor() {
+        this.content = lorem_ipsum;
     }
 
     generate(message: string): string {
-        let content: string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-        return content.repeat(Math.floor(Math.random() * 100));
+        return this.content.repeat(Math.floor(Math.random() * 100));
+    }
+}
+
+class SplitWords implements TextGenerator {
+    generate(message: string): string {
+        return message
+            .split(" ")
+            .map((word) => word in split_words ? split_words[word][Math.floor(Math.random() * split_words[word].length)] : word)
+            .join(" ");
+    }
+}
+
+class CapitalizeRandomly implements TextGenerator {
+    percent: number;
+
+    constructor() {
+        this.percent = 25;
+    }
+
+    generate(message: string): string {
+        return message
+            .split(" ")
+            .map((word) => Math.floor(Math.random() * 100) < this.percent ? word.charAt(0).toUpperCase() + word.slice(1) : word.toLowerCase())
+            .join(" ");
+    }
+}
+
+class PunctuateRandomly implements TextGenerator {
+    repeat_max: number;
+    punctuations: Array<string>;
+
+    constructor() {
+        this.repeat_max = 4;
+        this.punctuations = [
+            "!",
+            "?",
+            ".",
+            ",",
+        ];
+    }
+
+    generate(message: string): string {
+        return message
+            .split("")
+            .map((word) => /[.,!?]/.test(word) ? this.punctuations[Math.floor(Math.random() * this.punctuations.length)]
+            .repeat(Math.floor(Math.random() * this.repeat_max)) : word)
+            .join("");
+    }
+}
+
+class ShitGrammar implements TextGenerator {
+    split: SplitWords;
+    capitalize: CapitalizeRandomly;
+    punctuate: PunctuateRandomly;
+    new_lines: AddNewLines;
+
+    constructor() {
+        this.split = new SplitWords();
+        this.capitalize = new CapitalizeRandomly();
+        this.punctuate = new PunctuateRandomly();
+        this.new_lines = new AddNewLines();
+    }
+
+    generate(message: string): string {
+        return this.new_lines.generate(this.punctuate.generate(this.capitalize.generate(this.split.generate(message))));
+    }
+}
+
+class AddNewLines implements TextGenerator {
+    percent: number;
+
+    constructor() {
+        this.percent = 10;
+    }
+
+    generate(message: string): string {
+        return message
+            .split("")
+            .map((chr) => /\s/.test(chr) && Math.floor(Math.random() * 100) < this.percent ? '\n' : chr)
+            .join("");
     }
 }
