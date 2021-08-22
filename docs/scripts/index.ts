@@ -23,6 +23,13 @@ class Index {
         $("#input_text").on("click", trigger_select);
         $("#output_text").on("click", trigger_select);
 
+        $("#input_text").on("keypress", (event) => {
+            if (event.key === "Enter" && event.shiftKey) {
+                event.preventDefault();
+                $("#input_button").trigger("click");
+            }
+        });
+
         $("#input_button").on("click", () => {
             const key: string = $("#select_mode :selected").val() as string;
             const message: string = $("#input_text").val() as string;
