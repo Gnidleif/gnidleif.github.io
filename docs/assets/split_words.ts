@@ -1,4 +1,4 @@
-const split_words: { [key: string]: Array<string> } = {
+export const split_words: { [key: string]: Array<string> } = {
     "hästtjej": [
       "häst tjej"
     ],

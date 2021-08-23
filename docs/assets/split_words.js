@@ -1,5 +1,4 @@
-"use strict";
-var split_words = {
+export const split_words = {
     "hästtjej": [
         "häst tjej"
     ],
