@@ -74,8 +74,8 @@ class PunctuateRandomly {
     generate(message) {
         return message
             .split("")
-            .map((word) => /[.,!?]/.test(word) ? this.punctuations[Math.floor(Math.random() * this.punctuations.length)]
-            .repeat(Math.floor(Math.random() * this.repeat_max)) : word)
+            .map((chr) => chr in this.punctuations ? this.punctuations[Math.floor(Math.random() * this.punctuations.length)]
+            .repeat(Math.floor(Math.random() * this.repeat_max)) : chr)
             .join("");
     }
 }

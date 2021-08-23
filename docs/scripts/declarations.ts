@@ -108,8 +108,8 @@ class PunctuateRandomly implements TextGenerator {
     generate(message: string): string {
         return message
             .split("")
-            .map((word: string): string => /[.,!?]/.test(word) ? this.punctuations[Math.floor(Math.random() * this.punctuations.length)]
-            .repeat(Math.floor(Math.random() * this.repeat_max)) : word)
+            .map((chr: string): string => chr in this.punctuations ? this.punctuations[Math.floor(Math.random() * this.punctuations.length)]
+            .repeat(Math.floor(Math.random() * this.repeat_max)) : chr)
             .join("");
     }
 }
