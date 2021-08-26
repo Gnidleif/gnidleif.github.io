@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/generator.css">
+        <script src="scripts/generator.js" type="module" charset="utf-8" defer></script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>
+                    <label for="slcMode">Generator</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select id="slcMode" name="slcMode"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p id="pDesc"></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="txtOutput">Output</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="txtOutput" name="txtOutput" readonly="readonly"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="btnInput">Generate</button>
+                    <button id="btnCopy">Copy</button>
+                    <button id="btnClear" class="float_right">Clear</button>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

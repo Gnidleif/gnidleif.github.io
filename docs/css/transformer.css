@@ -1,0 +1,28 @@
+body {
+    background-color: lightblue;
+    height: 100%;
+}
+
+textarea {
+    resize: none;
+    width: 450px;
+    height: 300px;
+}
+
+textarea:read-only {
+    cursor: pointer;
+}
+
+select {
+    width: 300px;
+    height: 25px;
+}
+
+button.float_right {
+    float: right;
+}
+
+p#pDesc {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
