@@ -15,7 +15,6 @@ export class Spongebob implements TextTransformer {
     }
 }
 
-
 export class Svarjis implements TextTransformer {
     private capitalize_chance: number;
     private lines_chance: number;
@@ -68,5 +67,15 @@ export class Svarjis implements TextTransformer {
             .split("")
             .map((chr: string): string => /\s/.test(chr) && Math.floor(Math.random() * 100) < this.lines_chance ? '\n' : chr)
             .join("");
+    }
+}
+
+export class Markov implements TextTransformer {
+    description(): string {
+        return "";
+    }
+
+    transform(): string {
+        return "";
     }
 }

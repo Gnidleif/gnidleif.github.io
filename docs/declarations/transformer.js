@@ -50,3 +50,11 @@ export class Svarjis {
             .join("");
     }
 }
+export class Markov {
+    description() {
+        return "";
+    }
+    transform() {
+        return "";
+    }
+}

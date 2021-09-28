@@ -3,7 +3,8 @@ class Index {
     constructor() {
         this.tabs = [
             "generator",
-            "transformer"
+            "transformer",
+            "markov"
         ];
         this.initTabs();
         this.attachHTML();

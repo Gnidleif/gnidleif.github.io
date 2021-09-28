@@ -2,7 +2,8 @@ $(() => new Index());
 class Index {
     private tabs: Array<string> = [
         "generator",
-        "transformer"
+        "transformer",
+        "markov"
     ]
 
     constructor() {
